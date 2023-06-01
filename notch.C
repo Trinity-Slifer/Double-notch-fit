@@ -66,8 +66,8 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     multi->Add(graphbf6);
 
     fit4->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194 );
-    fit5->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 700 );
-    fit6->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974 );
+    fit5->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974 );
+    fit6->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 700 );
     phasefit10->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974);
     phasefit22->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194);
     phasefit68->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 680);
@@ -123,11 +123,11 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     auto legend = new TLegend(0.1, 0.7, 0.48, 0.9);
     legend->SetHeader("The Legend Title", "C"); // option "C" allows to center the header
     legend->AddEntry(graphbf4, "2194 \u03A9 ", "lp");
-    legend->AddEntry(graphbf5, "680 \u03A9 ", "lp");
-    legend->AddEntry(graphbf6, "9974 \u03A9 ", "lp");
+    legend->AddEntry(graphbf5, "9974 \u03A9 ", "lp");
+    legend->AddEntry(graphbf6, "680 \u03A9 ", "lp");
     legend->AddEntry(fit4, "Fit 2194 \u03A9 ", "l");
-    legend->AddEntry(fit5, "Fit 680 \u03A9", "l");
-    legend->AddEntry(fit6, "Fit 9974 \u03A9", "l");
+    legend->AddEntry(fit5, "Fit 9974 \u03A9", "l");
+    legend->AddEntry(fit6, "Fit 680 \u03A9", "l");
     legend->Draw();
 
     c2->cd(1);
