@@ -14,7 +14,7 @@ Double_t fitfunc(Double_t *x, Double_t *par) {
   Double_t D = par[4] * a - z * par[1] * b + r * A * a - r * b * B + par[5] * A - z * par[3] * B;
   Double_t E = A * a - B * b;
   Double_t F = A * b + B * a;
-  Double_t val =  5 * r * TMath::Sqrt((E * E + F * F) / (C * C + D * D));
+  Double_t val =  5 * par[6] * TMath::Sqrt((E * E + F * F) / (C * C + D * D));
   return val;
 }
 
@@ -39,7 +39,7 @@ Double_t fitphase(Double_t *x, Double_t *par) {
   void notch() {
     TCanvas *c1 = new TCanvas();
     TCanvas *c2 = new TCanvas();
-    auto multi = new TMultiGraph("mg", "mg");
+    auto multi = new TMultiGraph("mg", "Funzioni");
 
     c1->Divide(1);
     c2->Divide(3);
@@ -52,12 +52,9 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     TGraph *phaserr = new TGraph("phaserr.dat", "%lg %lg");
     TGraph *fase10k = new TGraph("fase5(10k).dat", "%lg %lg");
     TGraph *fase680 = new TGraph("fase6(680).dat", "%lg %lg");
-    TF1 *fit1 = new TF1("linear", "fitfunc", 300, 3000, 7);
-    TF1 *fit2 = new TF1("linear", "fitfunc", 300, 3000, 7);
-    TF1 *fit3 = new TF1("linear", "fitfunc", 300, 3000, 7);
-    TF1 *fit4 = new TF1("linear", "fitfunc", 300, 14000, 7);
-    TF1 *fit5 = new TF1("linear", "fitfunc", 300, 14000, 7);
-    TF1 *fit6 = new TF1("linear", "fitfunc", 300, 13000, 7);
+    TF1 *fit4 = new TF1("linear", "fitfunc", 300, 15000, 7);
+    TF1 *fit5 = new TF1("linear", "fitfunc", 300, 15000, 7);
+    TF1 *fit6 = new TF1("linear", "fitfunc", 300, 15000, 7);
     TF1 *fn1 = new TF1("fi", "[A]+[B]*x", 1100.0, 10000.0);
     TF1 *line = new TF1("linear", " 30 + 6.96467e-05*x", 300.0, 14000.0);
     TF1 *phasefit10 = new TF1("linear", " fitphase", 400.0, 14000.0, 7);
@@ -68,11 +65,8 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     multi->Add(graphbf5);
     multi->Add(graphbf6);
 
-    fit1->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194 );
-    fit2->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 680 );
-    fit3->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974 );
     fit4->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194 );
-    fit5->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 680 );
+    fit5->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 700 );
     fit6->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974 );
     phasefit10->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974);
     phasefit22->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194);
@@ -111,48 +105,41 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     graphbf6->SetMarkerSize(0.6);
     graphbf6->SetMarkerColor(kOrange);
 
-    fit1->SetLineColor(kCyan);
     fit4->SetLineColor(kCyan);
-    fit2->SetLineColor(41);
     fit5->SetLineColor(41);
-    fit3->SetLineColor(8);
     fit6->SetLineColor(8);
-    fit1->SetLineWidth(4);
-    fit2->SetLineWidth(4);
-    fit3->SetLineWidth(4);
     fit4->SetLineWidth(4);
     fit5->SetLineWidth(4);
     fit6->SetLineWidth(4);
 
-   // graphbf4->Fit(fit1, "R");
     graphbf4->Fit(fit4, "R");
-   // graphbf5->Fit(fit2, "R");
     graphbf5->Fit(fit5, "R");
-   // graphbf6->Fit(fit3, "R");
     graphbf6->Fit(fit6, "R");
-
 
     multi->GetXaxis()->SetLabelSize(0.03);
     multi->GetXaxis()->SetNdivisions(28, 10 , 0 , kTRUE);
     gPad->SetGrid();
-    c1->BuildLegend();
-    gStyle->SetOptFit(1100);
     multi->Draw("ALP");
+    auto legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+    legend->SetHeader("The Legend Title", "C"); // option "C" allows to center the header
+    legend->AddEntry(graphbf4, "2194 \u03A9 ", "lp");
+    legend->AddEntry(graphbf5, "680 \u03A9 ", "lp");
+    legend->AddEntry(graphbf6, "9974 \u03A9 ", "lp");
+    legend->AddEntry(fit4, "Fit 2194 \u03A9 ", "l");
+    legend->AddEntry(fit5, "Fit 680 \u03A9", "l");
+    legend->AddEntry(fit6, "Fit 9974 \u03A9", "l");
+    legend->Draw();
 
     c2->cd(1);
     gPad->SetGrid();
     fase680->Draw("AL");
     fase680->Fit(phasefit68);
-    //phasefit68->Draw("SAME");
     c2->cd(2);
     gPad->SetGrid();
     fase2194->Draw("AL");
     fase2194->Fit(phasefit22);
-    //phasefit22->Draw("SAME");
     c2->cd(3);
     gPad->SetGrid();
     fase10k->Draw("AL");
-    //line->Draw("SAME"); 
     fase10k->Fit(phasefit10);
-    //phasefit10->Draw("SAME");
   }
