@@ -39,12 +39,12 @@ Double_t fitphase(Double_t *x, Double_t *par) {
   void notch() {
     TCanvas *c1 = new TCanvas();
     TCanvas *c2 = new TCanvas();
-    auto multi = new TMultiGraph("mg", "Funzioni");
+    auto multi = new TMultiGraph("mg", "Risposta in ampiezza con diverse resistenze");
 
     c1->Divide(1);
     c2->Divide(3);
 
-    TGraph *graphbf4 = new TGraph("bf4.dat", "%lg %lg ");
+    TGraph *graphbf4 = new TGraph("bf4.dat", "%lg %lg");
     TGraph *graphbf5 = new TGraph("bf5.dat", "%lg %lg ");
     TGraph *graphbf6 = new TGraph("bf6.dat", "%lg %lg ");
     TH1F *ondaqua = new TH1F("h1", "Errore onda quadra", 30, 2.53, 2.54);
@@ -154,19 +154,21 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     legend->AddEntry(fit4, "Fit 2194 #Omega ", "l");
     legend->AddEntry(fit5, "Fit 9974 #Omega", "l");
     legend->AddEntry(fit6, "Fit 680 #Omega", "l");
-    //legend->Draw();
+    legend->Draw();
 
     c2->cd(1);
-    gStyle->SetOptFit(1100);
     gPad->SetGrid();
+    fase680->SetTitle("Fase resistenza 680");
     fase680->Draw("AL");
     fase680->Fit(phasefit68);
     c2->cd(2);
     gPad->SetGrid();
+    fase2194->SetTitle("Fase resistenza 2194");
     fase2194->Draw("AL");
     fase2194->Fit(phasefit22);
     c2->cd(3);
     gPad->SetGrid();
+    fase10k->SetTitle("Fase resistenza 9974");
     fase10k->Draw("AL");
     fase10k->Fit(phasefit10);
 
