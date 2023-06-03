@@ -108,68 +108,142 @@ Double_t fitphase(Double_t *x, Double_t *par) {
       ondaqua->Fill(y);
     }
     in.close();
-    c1->cd(1);
-    graphbf4->GetXaxis()->SetRangeUser(0, 14000);
-    graphbf4->GetYaxis()->SetRangeUser(1., 5.5);
 
-    graphbf4->SetMarkerStyle(8);
-    graphbf4->SetLineWidth(4);
-    graphbf4->SetLineColor(kBlue);
-    graphbf4->SetMarkerSize(0.6);
-    graphbf4->SetMarkerColor(kBlue);
+    in.open("bf4.dat");
+    float m = 100;
+    float h = 0;
+    int i = 0;
+    while (1) {
+      in >> x >> y;
+      if (!in.good()) {
+        std::cout << "La frequenza della seconda buca è: " << h << "Hz con " << m
+                  << "V." << std::endl ; 
+      break;
+      }
+      if (y < m) {
+      m = y;
+      h = x;
+      }
+      if ( i == 200) { 
+      std::cout << "La frequenza della prima buca è: " << h << "Hz con " << m << "V." << std::endl;
+      m = 100;
+      h = 0;
+      }
+      ++i;
+    }
+    in.close();
 
-    graphbf5->SetMarkerStyle(8);
-    graphbf5->SetLineWidth(4);
-    graphbf5->SetLineColor(kViolet);
-    graphbf5->SetMarkerSize(0.6);
-    graphbf5->SetMarkerColor(kViolet);
+    in.open("bf5.dat");
+    m=100;
+    h=0;
+    i = 0; 
+    while (1) {
+      in >> x >> y;
+      if (!in.good()) {
+      std::cout << "La frequenza della seconda buca è: " << h << "Hz con " << m
+                << "V." << std::endl;
+      break;
+      }
+      if (y < m) {
+      m = y;
+      h = x;
+      }
+      if (i == 200) {
+      std::cout << "La frequenza della prima buca è: " << h << "Hz con " << m
+                << "V." << std::endl;
+      m = 100;
+      h = 0;
+      }
+      ++i;
+    }
+    in.close();
 
-    graphbf6->SetMarkerStyle(8);
-    graphbf6->SetLineWidth(4);
-    graphbf6->SetLineColor(kOrange);
-    graphbf6->SetMarkerSize(0.6);
-    graphbf6->SetMarkerColor(kOrange);
+    in.open("bf6.dat");
+    m = 100;
+    h = 0;
+    i = 0;
+    while (1) {
+      in >> x >> y;
+      if (!in.good()) {
+      std::cout << "La frequenza della seconda buca è: " << h << "Hz con " << m
+                << "V." << std::endl;
+      break;
+      }
+      if (y < m) {
+      m = y;
+      h = x;
+      }
+      if ( i == 200) {
+      std::cout << "La frequenza della prima buca è: " << h << "Hz con " << m
+                << "V." << std::endl;
+      m = 100;
+      h = 0;
+      }
+      ++i;
+    }
+in.close();
+      c1->cd(1);
+      graphbf4->GetXaxis()->SetRangeUser(0, 14000);
+      graphbf4->GetYaxis()->SetRangeUser(1., 5.5);
 
-    fit4->SetLineColor(kCyan);
-    fit5->SetLineColor(41);
-    fit6->SetLineColor(8);
-    fit4->SetLineWidth(4);
-    fit5->SetLineWidth(4);
-    fit6->SetLineWidth(4);
+      graphbf4->SetMarkerStyle(8);
+      graphbf4->SetLineWidth(4);
+      graphbf4->SetLineColor(kBlue);
+      graphbf4->SetMarkerSize(0.6);
+      graphbf4->SetMarkerColor(kBlue);
 
-    graphbf4->Fit(fit4, "R");
-    graphbf5->Fit(fit5, "R");
-    graphbf6->Fit(fit6, "R");
+      graphbf5->SetMarkerStyle(8);
+      graphbf5->SetLineWidth(4);
+      graphbf5->SetLineColor(kViolet);
+      graphbf5->SetMarkerSize(0.6);
+      graphbf5->SetMarkerColor(kViolet);
 
-    multi->GetXaxis()->SetLabelSize(0.03);
-    multi->GetXaxis()->SetNdivisions(28, 10 , 0 , kTRUE);
-    gPad->SetGrid();
-    multi->Draw("ALP");
+      graphbf6->SetMarkerStyle(8);
+      graphbf6->SetLineWidth(4);
+      graphbf6->SetLineColor(kOrange);
+      graphbf6->SetMarkerSize(0.6);
+      graphbf6->SetMarkerColor(kOrange);
 
-    auto legend = new TLegend(0.1, 0.7, 0.48, 0.9);
-    legend->SetHeader("The Legend Title", "C"); // option "C" allows to center the header
-    legend->AddEntry(graphbf4, "2194 #Omega ", "lp");
-    legend->AddEntry(graphbf5, "9974 #Omega", "lp");
-    legend->AddEntry(graphbf6, "680 #Omega ", "lp");
-    legend->AddEntry(fit4, "Fit 2194 #Omega ", "l");
-    legend->AddEntry(fit5, "Fit 9974 #Omega", "l");
-    legend->AddEntry(fit6, "Fit 680 #Omega", "l");
-    legend->Draw();
+      fit4->SetLineColor(kCyan);
+      fit5->SetLineColor(41);
+      fit6->SetLineColor(8);
+      fit4->SetLineWidth(4);
+      fit5->SetLineWidth(4);
+      fit6->SetLineWidth(4);
 
-    c2->cd(1);
-    gPad->SetGrid();
-    fase680->SetTitle("Fase resistenza 680");
-    fase680->Draw("AL");
-    fase680->Fit(phasefit68);
-    c2->cd(2);
-    gPad->SetGrid();
-    fase2194->SetTitle("Fase resistenza 2194");
-    fase2194->Draw("AL");
-    fase2194->Fit(phasefit22);
-    c2->cd(3);
-    gPad->SetGrid();
-    fase10k->SetTitle("Fase resistenza 9974");
-    fase10k->Draw("AL");
-    fase10k->Fit(phasefit10);
+      graphbf4->Fit(fit4, "R");
+      graphbf5->Fit(fit5, "R");
+      graphbf6->Fit(fit6, "R");
 
-  }
+      multi->GetXaxis()->SetLabelSize(0.03);
+      multi->GetXaxis()->SetNdivisions(28, 10, 0, kTRUE);
+      gPad->SetGrid();
+      multi->Draw("ALP");
+
+      auto legend = new TLegend(0.1, 0.7, 0.48, 0.9);
+      legend->SetHeader("The Legend Title",
+                        "C"); // option "C" allows to center the header
+      legend->AddEntry(graphbf4, "2194 #Omega ", "lp");
+      legend->AddEntry(graphbf5, "9974 #Omega", "lp");
+      legend->AddEntry(graphbf6, "680 #Omega ", "lp");
+      legend->AddEntry(fit4, "Fit 2194 #Omega ", "l");
+      legend->AddEntry(fit5, "Fit 9974 #Omega", "l");
+      legend->AddEntry(fit6, "Fit 680 #Omega", "l");
+      legend->Draw();
+
+      c2->cd(1);
+      gPad->SetGrid();
+      fase680->SetTitle("Fase resistenza 680");
+      fase680->Draw("AL");
+      fase680->Fit(phasefit68);
+      c2->cd(2);
+      gPad->SetGrid();
+      fase2194->SetTitle("Fase resistenza 2194");
+      fase2194->Draw("AL");
+      fase2194->Fit(phasefit22);
+      c2->cd(3);
+      gPad->SetGrid();
+      fase10k->SetTitle("Fase resistenza 9974");
+      fase10k->Draw("AL");
+      fase10k->Fit(phasefit10);
+    }
