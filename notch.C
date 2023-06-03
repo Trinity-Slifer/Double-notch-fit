@@ -71,6 +71,31 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     phasefit10->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 9974);
     phasefit22->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 2194);
     phasefit68->SetParameters(0.000000158, 0.04786, 0.0000004657, 0.000479, 128., 2.25, 680);
+
+    fit4->SetParLimits(1, 0.04786, 0.04786);
+    fit4->SetParLimits(0, 0.000000158, 0.000000158);
+    fit4->SetParLimits(2, 0.0000004657, 0.0000004657);
+    fit4->SetParLimits(3, 0.000479, 0.000479);
+    fit4->SetParLimits(4, 128., 128.);
+    fit4->SetParLimits(5, 2.25, 2.25);
+    fit4->SetParLimits(6, 2194, 2194);
+
+    fit5->SetParLimits(1, 0.04786, 0.04786);
+    fit5->SetParLimits(0, 0.000000158, 0.000000158);
+    fit5->SetParLimits(2, 0.0000004657, 0.0000004657);
+    fit5->SetParLimits(3, 0.000479, 0.000479);
+    fit5->SetParLimits(4, 128., 128.);
+    fit5->SetParLimits(5, 2.25, 2.25);
+    fit5->SetParLimits(6, 680, 680);
+
+    fit6->SetParLimits(1, 0.04786, 0.04786);
+    fit6->SetParLimits(0, 0.000000158, 0.000000158);
+    fit6->SetParLimits(2, 0.0000004657, 0.0000004657);
+    fit6->SetParLimits(3, 0.000479, 0.000479);
+    fit6->SetParLimits(4, 128., 128.);
+    fit6->SetParLimits(5, 2.25, 2.25);
+    fit6->SetParLimits(6, 9974, 9974);
+
     ifstream in;
     in.open("ondaq.dat");
     float x;
@@ -120,17 +145,19 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     multi->GetXaxis()->SetNdivisions(28, 10 , 0 , kTRUE);
     gPad->SetGrid();
     multi->Draw("ALP");
+
     auto legend = new TLegend(0.1, 0.7, 0.48, 0.9);
     legend->SetHeader("The Legend Title", "C"); // option "C" allows to center the header
-    legend->AddEntry(graphbf4, "2194 \u03A9 ", "lp");
-    legend->AddEntry(graphbf5, "9974 \u03A9 ", "lp");
-    legend->AddEntry(graphbf6, "680 \u03A9 ", "lp");
-    legend->AddEntry(fit4, "Fit 2194 \u03A9 ", "l");
-    legend->AddEntry(fit5, "Fit 9974 \u03A9", "l");
-    legend->AddEntry(fit6, "Fit 680 \u03A9", "l");
-    legend->Draw();
+    legend->AddEntry(graphbf4, "2194 #Omega ", "lp");
+    legend->AddEntry(graphbf5, "9974 #Omega", "lp");
+    legend->AddEntry(graphbf6, "680 #Omega ", "lp");
+    legend->AddEntry(fit4, "Fit 2194 #Omega ", "l");
+    legend->AddEntry(fit5, "Fit 9974 #Omega", "l");
+    legend->AddEntry(fit6, "Fit 680 #Omega", "l");
+    //legend->Draw();
 
     c2->cd(1);
+    gStyle->SetOptFit(1100);
     gPad->SetGrid();
     fase680->Draw("AL");
     fase680->Fit(phasefit68);
@@ -142,4 +169,5 @@ Double_t fitphase(Double_t *x, Double_t *par) {
     gPad->SetGrid();
     fase10k->Draw("AL");
     fase10k->Fit(phasefit10);
+
   }
