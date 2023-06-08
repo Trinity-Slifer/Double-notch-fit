@@ -69,14 +69,14 @@ void notch() {
   c2->Divide(3);
   c3->Divide(1);
 
-  TGraph *graphbf4 = new TGraph("bf4.dat", "%lg %lg");
-  TGraph *graphbf5 = new TGraph("bf5.dat", "%lg %lg ");
-  TGraph *graphbf6 = new TGraph("bf6.dat", "%lg %lg ");
+  TGraph *graphbf4 = new TGraph("./data/bf4.dat", "%lg %lg");
+  TGraph *graphbf5 = new TGraph("./data/bf5.dat", "%lg %lg ");
+  TGraph *graphbf6 = new TGraph("./data/bf6.dat", "%lg %lg ");
   TH1F *ondaqua = new TH1F("h1", "Errore onda quadra", 30, 2.53, 2.54);
-  TGraph *fase2194 = new TGraph("fase4(bella).dat", "%lg %lg");
-  TGraph *phaserr = new TGraph("phaserr.dat", "%lg %lg");
-  TGraph *fase10k = new TGraph("fase5(10k).dat", "%lg %lg");
-  TGraph *fase680 = new TGraph("fase6(680).dat", "%lg %lg");
+  TGraph *fase2194 = new TGraph("./data/fase4(bella).dat", "%lg %lg");
+  TGraph *phaserr = new TGraph("./data/phaserr.dat", "%lg %lg");
+  TGraph *fase10k = new TGraph("./data/fase5(10k).dat", "%lg %lg");
+  TGraph *fase680 = new TGraph("./data/fase6(680).dat", "%lg %lg");
   TF1 *fit4 = new TF1("linear", "fitfunc", 300, 15000, 7);
   TF1 *fit5 = new TF1("linear", "fitfunc", 300, 15000, 7);
   TF1 *fit6 = new TF1("linear", "fitfunc", 300, 15000, 7);
@@ -152,7 +152,7 @@ void notch() {
   // phasefit68->SetParLimits(6, 680, 680);
 
   ifstream in;
-  in.open("ondaq.dat");
+  in.open("./data/ondaq.dat");
   float x;
   float y;
   while (1) {
@@ -164,7 +164,7 @@ void notch() {
   }
   in.close();
 
-  in.open("bf4.dat");
+  in.open("./data/bf4.dat");
   double chi = 0;
   double sum = 0;
   float m = 100;
@@ -175,7 +175,7 @@ void notch() {
     chi = chifunc(x, 2194);
     sum += (y - chi) * (y - chi) / (y);
     if (!in.good()) {
-      std::cout << "La frequenza della seconda buca è: " << h << "Hz con " << m
+      std::cout << "La frequenza della seconda buca da 2194 è: " << h << "Hz con " << m
                 << "V." << std::endl;
       break;
     }
@@ -194,7 +194,7 @@ void notch() {
   std::cout << "Valore misurato chi^2: " << sum << std::endl;
   in.close();
 
-  in.open("bf5.dat");
+  in.open("./data/bf5.dat");
   sum = 0;
   m = 100;
   h = 0;
@@ -204,7 +204,7 @@ void notch() {
     chi = chifunc(x, 9974);
     sum += (y - chi) * (y - chi) / (y);
     if (!in.good()) {
-      std::cout << "La frequenza della seconda buca è: " << h << "Hz con " << m
+      std::cout << "La frequenza della seconda 10k buca è: " << h << "Hz con " << m
                 << "V." << std::endl;
       break;
     }
@@ -213,7 +213,7 @@ void notch() {
       h = x;
     }
     if (i == 200) {
-      std::cout << "La frequenza della prima buca è: " << h << "Hz con " << m
+      std::cout << "La frequenza della prima buca  è: " << h << "Hz con " << m
                 << "V." << std::endl;
       m = 100;
       h = 0;
@@ -224,7 +224,7 @@ void notch() {
   std::cout << "Valore misurato chi^2: " << sum << std::endl;
   in.close();
 
-  in.open("bf6.dat");
+  in.open("./data/bf6.dat");
   sum = 0;
   m = 100;
   h = 0;
@@ -243,7 +243,7 @@ void notch() {
       h = x;
     }
     if (i == 200) {
-      std::cout << "La frequenza della prima buca è: " << h << "Hz con " << m
+      std::cout << "La frequenza della prima buca 680 è: " << h << "Hz con " << m
                 << "V." << std::endl;
       m = 100;
       h = 0;
